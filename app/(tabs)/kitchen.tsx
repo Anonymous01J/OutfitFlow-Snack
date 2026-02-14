@@ -1,6 +1,5 @@
-import { YStack, Text, H2, Card, XStack, Button, Badge } from 'tamagui';
+import { YStack, Text, H2, Card, XStack, Button, Badge, Theme } from 'tamagui';
 import { ScrollView } from 'react-native';
-import { useTheme } from '../../src/core/theme/ThemeProvider';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 
@@ -37,17 +36,16 @@ const mockOrders: Order[] = [
 ];
 
 export default function KitchenScreen() {
-  const { isDark } = useTheme();
   const [orders, setOrders] = useState<Order[]>(mockOrders);
 
-  const getStatusColor = (status: Order['status']) => {
+  const getStatusTheme = (status: Order['status']) => {
     switch (status) {
       case 'pending':
-        return '#f59e0b';
+        return 'warning';
       case 'preparing':
-        return '#3b82f6';
+        return 'accent';
       case 'ready':
-        return '#10b981';
+        return 'success';
     }
   };
 
@@ -71,13 +69,15 @@ export default function KitchenScreen() {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }}>
-      <YStack padding="$4" gap="$4">
+    <ScrollView style={{ flex: 1 }}>
+      <YStack padding="$4" gap="$4" backgroundColor="$background">
         <XStack justifyContent="space-between" alignItems="center">
           <H2>Órdenes en Cocina</H2>
-          <Badge backgroundColor="$red10" color="white" size="$3">
-            {orders.filter((o) => o.status === 'pending').length} pendientes
-          </Badge>
+          <Theme name="error">
+            <Badge size="$3">
+              {orders.filter((o) => o.status === 'pending').length} pendientes
+            </Badge>
+          </Theme>
         </XStack>
 
         {orders.map((order) => (
@@ -87,15 +87,15 @@ export default function KitchenScreen() {
                 <Ionicons
                   name="location-outline"
                   size={20}
-                  color={isDark ? '#ffffff' : '#000000'}
+                  color="$color11"
                 />
                 <Text fontSize="$5" fontWeight="bold">
                   {order.table}
                 </Text>
               </XStack>
               <XStack gap="$2" alignItems="center">
-                <Ionicons name="time-outline" size={16} color="$gray10" />
-                <Text fontSize="$3" color="$gray10">
+                <Ionicons name="time-outline" size={16} color="$color9" />
+                <Text fontSize="$3" color="$color9">
                   {order.time}
                 </Text>
               </XStack>
@@ -104,41 +104,45 @@ export default function KitchenScreen() {
             <YStack gap="$1">
               {order.items.map((item, idx) => (
                 <XStack key={idx} gap="$2" alignItems="center">
-                  <Ionicons name="ellipse" size={8} color="$gray10" />
+                  <Ionicons name="ellipse" size={8} color="$color9" />
                   <Text>{item}</Text>
                 </XStack>
               ))}
             </YStack>
 
             <XStack justifyContent="space-between" alignItems="center">
-              <Badge backgroundColor={getStatusColor(order.status)} color="white">
-                {getStatusText(order.status)}
-              </Badge>
+              <Theme name={getStatusTheme(order.status)}>
+                <Badge>
+                  {getStatusText(order.status)}
+                </Badge>
+              </Theme>
 
               <XStack gap="$2">
                 {order.status === 'pending' && (
-                  <Button
-                    size="$3"
-                    theme="blue"
-                    onPress={() => updateOrderStatus(order.id, 'preparing')}
-                  >
-                    Iniciar
-                  </Button>
+                  <Theme name="accent">
+                    <Button
+                      size="$3"
+                      onPress={() => updateOrderStatus(order.id, 'preparing')}
+                    >
+                      Iniciar
+                    </Button>
+                  </Theme>
                 )}
                 {order.status === 'preparing' && (
-                  <Button
-                    size="$3"
-                    theme="green"
-                    onPress={() => updateOrderStatus(order.id, 'ready')}
-                  >
-                    Completar
-                  </Button>
+                  <Theme name="success">
+                    <Button
+                      size="$3"
+                      onPress={() => updateOrderStatus(order.id, 'ready')}
+                    >
+                      Completar
+                    </Button>
+                  </Theme>
                 )}
                 {order.status === 'ready' && (
                   <Button
                     size="$3"
-                    theme="gray"
-                    icon={<Ionicons name="checkmark-circle" size={16} />}
+                    backgroundColor="$color5"
+                    icon={<Ionicons name="checkmark-circle" size={16} color="white" />}
                   >
                     Entregada
                   </Button>
@@ -153,9 +157,9 @@ export default function KitchenScreen() {
             <Ionicons
               name="checkmark-done-circle-outline"
               size={64}
-              color="$gray10"
+              color="$color9"
             />
-            <Text fontSize="$5" color="$gray10">
+            <Text fontSize="$5" color="$color9">
               No hay órdenes pendientes
             </Text>
           </Card>

@@ -1,73 +1,78 @@
-import { YStack, Text, H1, Card, XStack, Button } from 'tamagui';
+import { YStack, Text, H1, Card, XStack, Button, Theme } from 'tamagui';
 import { ScrollView } from 'react-native';
-import { useTheme } from '../../src/core/theme/ThemeProvider';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
-  const { isDark, toggleTheme } = useTheme();
-
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }}>
-      <YStack padding="$4" gap="$4">
+    <ScrollView style={{ flex: 1 }}>
+      <YStack padding="$4" gap="$4" backgroundColor="$background">
         <H1>Welcome to OutfitFlow</H1>
         
-        <Card elevate bordered padding="$4" gap="$3">
-          <XStack justifyContent="space-between" alignItems="center">
-            <Text fontSize="$5" fontWeight="bold">
-              Dashboard
+        <Theme name="accent">
+          <Card elevate bordered padding="$4" gap="$3">
+            <XStack justifyContent="space-between" alignItems="center">
+              <Text fontSize="$5" fontWeight="bold">
+                Dashboard
+              </Text>
+              <Ionicons 
+                name="stats-chart-outline" 
+                size={24} 
+                color="$color11" 
+              />
+            </XStack>
+            <Text color="$color11">
+              Gestiona tu restaurante desde aquí
             </Text>
-            <Ionicons 
-              name="stats-chart-outline" 
-              size={24} 
-              color={isDark ? '#ffffff' : '#000000'} 
-            />
-          </XStack>
-          <Text color="$gray10">
-            Gestiona tu restaurante desde aquí
-          </Text>
-        </Card>
+          </Card>
+        </Theme>
 
         <XStack gap="$3" flexWrap="wrap">
-          <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
-            <Ionicons 
-              name="receipt-outline" 
-              size={32} 
-              color="#3b82f6" 
-            />
-            <Text fontSize="$6" fontWeight="bold">24</Text>
-            <Text color="$gray10">Órdenes Hoy</Text>
-          </Card>
+          <Theme name="accent">
+            <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
+              <Ionicons 
+                name="receipt-outline" 
+                size={32} 
+                color="hsl(208, 69%, 46%)" 
+              />
+              <Text fontSize="$6" fontWeight="bold">24</Text>
+              <Text color="$color11">Órdenes Hoy</Text>
+            </Card>
+          </Theme>
 
-          <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
-            <Ionicons 
-              name="people-outline" 
-              size={32} 
-              color="#10b981" 
-            />
-            <Text fontSize="$6" fontWeight="bold">156</Text>
-            <Text color="$gray10">Clientes</Text>
-          </Card>
+          <Theme name="success">
+            <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
+              <Ionicons 
+                name="people-outline" 
+                size={32} 
+                color="hsl(151, 55%, 42%)" 
+              />
+              <Text fontSize="$6" fontWeight="bold">156</Text>
+              <Text color="$color11">Clientes</Text>
+            </Card>
+          </Theme>
         </XStack>
 
         <XStack gap="$3" flexWrap="wrap">
-          <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
-            <Ionicons 
-              name="restaurant-outline" 
-              size={32} 
-              color="#f59e0b" 
-            />
-            <Text fontSize="$6" fontWeight="bold">12</Text>
-            <Text color="$gray10">En Cocina</Text>
-          </Card>
+          <Theme name="warning">
+            <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
+              <Ionicons 
+                name="restaurant-outline" 
+                size={32} 
+                color="hsl(60, 54%, 47%)" 
+              />
+              <Text fontSize="$6" fontWeight="bold">12</Text>
+              <Text color="$color11">En Cocina</Text>
+            </Card>
+          </Theme>
 
           <Card flex={1} minWidth={150} elevate bordered padding="$4" gap="$2">
             <Ionicons 
               name="checkmark-circle-outline" 
               size={32} 
-              color="#8b5cf6" 
+              color="hsl(270, 51%, 60%)" 
             />
             <Text fontSize="$6" fontWeight="bold">32</Text>
-            <Text color="$gray10">Completadas</Text>
+            <Text color="$color11">Completadas</Text>
           </Card>
         </XStack>
 
@@ -76,13 +81,20 @@ export default function HomeScreen() {
             Acciones Rápidas
           </Text>
           <YStack gap="$2">
-            <Button theme="blue" icon={<Ionicons name="add-circle-outline" size={20} />}>
-              Nueva Orden
-            </Button>
-            <Button theme="green" icon={<Ionicons name="calendar-outline" size={20} />}>
-              Ver Reservaciones
-            </Button>
-            <Button theme="purple" icon={<Ionicons name="bar-chart-outline" size={20} />}>
+            <Theme name="accent">
+              <Button icon={<Ionicons name="add-circle-outline" size={20} color="white" />}>
+                Nueva Orden
+              </Button>
+            </Theme>
+            <Theme name="success">
+              <Button icon={<Ionicons name="calendar-outline" size={20} color="white" />}>
+                Ver Reservaciones
+              </Button>
+            </Theme>
+            <Button 
+              backgroundColor="hsl(270, 51%, 60%)"
+              icon={<Ionicons name="bar-chart-outline" size={20} color="white" />}
+            >
               Estadísticas
             </Button>
           </YStack>

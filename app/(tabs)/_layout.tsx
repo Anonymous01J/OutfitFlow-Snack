@@ -1,23 +1,23 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../src/core/theme/ThemeProvider';
+import { useTheme as useTamaguiTheme } from 'tamagui';
 
 export default function TabLayout() {
-  const { isDark } = useTheme();
+  const theme = useTamaguiTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#3b82f6',
-        tabBarInactiveTintColor: isDark ? '#666666' : '#999999',
+        tabBarActiveTintColor: theme.accent9.val,
+        tabBarInactiveTintColor: theme.color9.val,
         tabBarStyle: {
-          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
-          borderTopColor: isDark ? '#404040' : '#e0e0e0',
+          backgroundColor: theme.background.val,
+          borderTopColor: theme.borderColor.val,
         },
         headerStyle: {
-          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
+          backgroundColor: theme.background.val,
         },
-        headerTintColor: isDark ? '#ffffff' : '#000000',
+        headerTintColor: theme.color.val,
       }}
     >
       <Tabs.Screen
